@@ -1,0 +1,26 @@
+language: rust
+dist: trusty
+
+matrix:
+  fast_finish: true
+  include:
+  - rust: nightly-i686
+    os: linux
+    addons:
+      apt:
+        packages:
+        - gcc-multilib
+        - libssl-dev:i386
+
+script:
+- cargo build --verbose --release
+
+deploy:
+  provider: releases
+  api_key:
+    secure: Enn2ksmS3aOxI10yJZ09PCFS02GvrfWug/HOPRJOA3Y26zS3yQ7gu9VgJ3DFr0ewcByoaWm0VKDuc4A7zhApD+ESXgjd8/v+WORCb/oupIKzlL7JvkC2mxEOjB5v7ZEI0yHkxcpA5uj3jXk4uuE6McMR0RMOEJ5vKzgIY+tCQ5cdvPJm6FNWTLtuKwAWIx4Td9B5mKYslPzWlDoY+9R0omtXAnl+5ivKkQB8u2PLwGaZgZkJL0ldIyzmbmkLTg3fIVI8gDP+JQ43HGlfRrWIa6MZQ0O3ROKIl0cnNDX3qi5NK87Uoe7lJ1F0EVSd5YgycHC8vbf3Jh8CdOiKTqJuion0z0jkdIXvjFQBPo88x/r6MXbRehn3nJPUnt08vUjrX3Yjd/AuMi7FArnosxxwiDzEmnWoVB+AZJsAUt/9RmBAB/cu5jJ0tgJ3x/GiXeQE1XR3ZTyDv+a/QgC+QwkELU6pk+pouvmwB/6YLZs+lr5LA1aizNFi5g92Dnh/cyWMZfJWRJXdtJPbRyp2Q7zvpZgC05yHYtCfxb7bBByb3+yfG9YkYGshUATcPUamAyT6TLqhgybuSwnn0WZy3oie1KCtlbx+k3e9u7Cb/2U7JUxOGcY5MmqBLI4NhJZS3pFRdKTzKf3Yep9CYYRwNjeHFYxFAVqXyttMv3kU9zo48nc=
+  file: target/release/libsamp_bcrypt.so
+  skip_cleanup: true
+  draft: true
+  on:
+    repo: sreyas-sreelal/samp-bcrypt

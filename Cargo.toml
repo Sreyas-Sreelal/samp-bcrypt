@@ -1,0 +1,12 @@
+[package]
+name = "samp-bcrypt"
+version = "0.1.0"
+authors = ["Sreyas <Sreyassreelal@gmail.com>"]
+
+[lib]
+name = "samp_bcrypt"
+crate-type = ["cdylib"]
+
+[dependencies]
+samp-sdk = "0.8.4"
+bcrypt = "0.2.1"
