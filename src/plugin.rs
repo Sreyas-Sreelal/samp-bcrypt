@@ -73,14 +73,28 @@ impl SampBcrypt {
 				let amx = AMX::new(*amx as *mut _);
 				self.hashes.push(hashed.clone());
 				self.hash_context_id += 1;
-				exec_public_with_name!(amx,callback;playerid,self.hash_context_id -1).unwrap();
+				match exec_public_with_name!(amx,callback;playerid,self.hash_context_id -1){
+					Ok(_) => {
+
+					},
+					Err(err) => {
+						log!("Error executing {:?} \n {:?}",callback,err);
+					}
+				}
 			}
 		}
 
 		for (playerid,callback,success) in  self.verify_complete_receiver.as_ref().unwrap().try_iter() {
 			for amx in &self.amx_list{
 				let amx = AMX::new(*amx as *mut _);
-				exec_public_with_name!(amx,callback;playerid,success).unwrap();					
+				match exec_public_with_name!(amx,callback;playerid,success){
+					Ok(_) => {
+
+					},
+					Err(err) => {
+						log!("Error executing {:?} \n {:?}",callback,err);
+					}
+				};					
 			}
 		}
 	}
