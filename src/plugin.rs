@@ -6,13 +6,17 @@ use bcrypt::{hash,verify};
 use std::sync::mpsc::{Sender,Receiver,channel};
 
 define_native!(bcrypt_hash,playerid:u32,callback:String,input:String,cost:u32);
+define_native!(bcrypt_get_hash,contextid:usize,dest:ref Cell,size:usize);
 define_native!(bcrypt_verify,playerid:u32,callback:String,input:String,hash:String);
+define_native!(bcrypt_delete,contextid:usize);
 
 pub struct SampBcrypt{
 	pub hash_start_sender: Option<Sender<(u32, String,String, u32)>>,
-	pub hash_complete_receiver: Option<Receiver<(u32, String,String,bool)>>,
+	pub hash_complete_receiver: Option<Receiver<(u32, String,String)>>,
 	pub verify_start_sender: Option<Sender<(u32, String,String,String)>>,
 	pub verify_complete_receiver: Option<Receiver<(u32,String,bool)>>,
+	pub hashes: Vec<String>,
+	pub hash_context_id: usize,
 	pub amx_list: Vec<usize>,
 }
 
@@ -28,10 +32,10 @@ impl SampBcrypt {
 			for (playerid,callback,input,cost) in hash_start_receiver.iter() {
 				match hash(&input, cost){
 					Ok(hashed) =>{
-						hash_complete_send.send((playerid,callback,hashed,true)).unwrap();
+						hash_complete_send.send((playerid,callback,hashed)).unwrap();
 					},
 					Err(err)=>{
-						hash_complete_send.send((playerid,callback,String::from(""),false)).unwrap();
+						hash_complete_send.send((playerid,callback,String::from(""))).unwrap();
 						log!("**[SampBcrypt] Hash error {:?}",err);
 					}
 				}
@@ -59,42 +63,24 @@ impl SampBcrypt {
 		});
 
 		log!("**[SampBcrypt] Loaded!");
+
 		return true;
 	}
 
 	pub fn process_tick(&mut self) {
-		for (playerid, callback, hashed,success) in  self.hash_complete_receiver.as_ref().unwrap().try_iter() {
+		for (playerid, callback, hashed) in  self.hash_complete_receiver.as_ref().unwrap().try_iter() {
 			for amx in &self.amx_list{
 				let amx = AMX::new(*amx as *mut _);
-				match amx.find_public(&callback){
-					Ok(index) =>{
-						amx.push(success).unwrap();
-						amx.push_string(&hashed,false).unwrap();
-						amx.push(playerid).unwrap();
-						amx.exec(index).unwrap();
-					}
-					Err(err) =>{
-						log!("**[SampBcrypt] Error finding callback {:?}",err);
-						continue;
-					}
-				};
+				self.hashes.push(hashed.clone());
+				self.hash_context_id += 1;
+				exec_public_with_name!(amx,callback;playerid,self.hash_context_id -1).unwrap();
 			}
 		}
 
 		for (playerid,callback,success) in  self.verify_complete_receiver.as_ref().unwrap().try_iter() {
 			for amx in &self.amx_list{
 				let amx = AMX::new(*amx as *mut _);
-				match amx.find_public(&callback){
-					Ok(index) =>{
-						amx.push(success).unwrap();
-						amx.push(playerid).unwrap();
-						amx.exec(index).unwrap();
-					}
-					Err(err) =>{
-						log!("**[SampBcrypt] Error finding callback {:?}",err);
-						continue;
-					}
-				};
+				exec_public_with_name!(amx,callback;playerid,success).unwrap();					
 			}
 		}
 	}
@@ -107,6 +93,8 @@ impl SampBcrypt {
 		self.amx_list.push(amx.amx as usize);
 		let natives = natives!{
 			"bcrypt_hash" => bcrypt_hash,
+			"bcrypt_get_hash" => bcrypt_get_hash,
+			"bcrypt_delete" => bcrypt_delete,
 			"bcrypt_verify" => bcrypt_verify
 		};
 
@@ -135,6 +123,8 @@ impl Default for SampBcrypt {
 			verify_start_sender: None,
 			verify_complete_receiver: None,
 			amx_list: Vec::new(),
+			hashes: Vec::new(),
+			hash_context_id: 0,
 		}
 	}
 }
