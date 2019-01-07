@@ -1,0 +1,32 @@
+{
+	"user": "Sreyas-Sreelal",
+	"repo": "samp-bcrypt",
+	"entry": "pawn-tests/test.pwn",
+	"output": "test/gamemodes/test.amx",
+	"dependencies": ["sampctl/pawn-stdlib"],
+	"dev_dependencies": ["pawn-lang/YSI-Includes"],
+	"include_path": "include",
+	"builds": [
+		{
+			"name": "test",
+			"includes": ["./include"]
+		}
+	],
+	"runtime": {
+		"plugins": ["Sreyas-Sreelal/samp-bcrypt"]
+	},
+	"resources": [
+		{
+			"name": "samp-bcrypt-linux-x86.zip",
+			"platform": "linux",
+			"archive": true,
+			"plugins": ["plugins/samp-bcrypt.so"]
+		},
+		{
+			"name": "samp-bcrypt-windows-x86.zip",
+			"platform": "windows",
+			"archive": true,
+			"plugins": ["plugins/samp-bcrypt.dll"]
+		}
+	]
+}
