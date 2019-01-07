@@ -27,8 +27,9 @@ setup:
 	cd test && mkdir gamemodes
 
 ensure:
-	cd test && sampctl server ensure
 	sampctl package ensure
+	cd test && sampctl server ensure
+	
 
 run:
 	sampctl package build
