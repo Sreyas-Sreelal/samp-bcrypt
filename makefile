@@ -32,4 +32,3 @@ run:
 	
 clean:
 	cargo clean
-	rm -rf test
