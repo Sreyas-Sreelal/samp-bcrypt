@@ -19,8 +19,6 @@ debug:
 	cp target/debug/$(BINARYNAME) test/plugins/$(OUPUTNAME)
 
 setup:
-	mkdir test
-	cd test && sampctl server init
 	cd test && mkdir plugins
 	cd test && mkdir gamemodes
 
