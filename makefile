@@ -1,5 +1,5 @@
 ifdef OS
-	TOOLCHAIN = nightly-i686-pc-windows-msvc
+	TOOLCHAIN = +nightly-i686-pc-windows-msvc
 	BINARYNAME = samp_bcrypt.dll
 	OUPUTNAME = samp_bcrypt.dll
 else
