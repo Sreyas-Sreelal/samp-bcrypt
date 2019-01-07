@@ -13,5 +13,11 @@ Cargo.lock
 *dll
 *so
 
-/test/
 /dependencies/
+
+announce
+samp03svr
+samp-npc
+
+server.cfg
+server_log.txt
