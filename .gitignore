@@ -10,3 +10,8 @@ Cargo.lock
 **/*.rs.bk
 
 *amx
+*dll
+*so
+
+/test/
+/dependencies/
