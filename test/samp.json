@@ -1,7 +1,7 @@
 {
 	"rcon_password": "|%GuRd324$\u0026|",
 	"port": 7777,
-	"plugins":["samp_bcrypt.so"],
+	"plugins":["samp_bcrypt"],
 	"gamemodes":["test"],
 	"hostname": "test",
 	"maxplayers": 32
