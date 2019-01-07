@@ -19,5 +19,9 @@ announce
 samp03svr
 samp-npc
 
+announce.exe
+samp-server.exe
+samp-npc.exe
+
 server.cfg
 server_log.txt
