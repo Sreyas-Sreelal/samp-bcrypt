@@ -25,12 +25,13 @@ debug:
 setup:
 	cd test && mkdir plugins
 	cd test && mkdir gamemodes
+	sampctl package ensure
+	sampctl package build
+	cd test && sampctl server ensure
 
 ensure:
 	sampctl package ensure
-	cd test && sampctl server ensure
 	
-
 run:
 	sampctl package build
 	cd test && sampctl server run
