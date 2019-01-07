@@ -6,7 +6,7 @@ extern crate bcrypt;
 mod macros;
 mod plugin;
 mod natives;
-
+mod internals;
 
 use plugin::SampBcrypt;
 

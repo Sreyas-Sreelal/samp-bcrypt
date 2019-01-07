@@ -2,8 +2,8 @@ use samp_sdk::consts::*;
 use samp_sdk::types::Cell;
 use samp_sdk::amx::AMX;
 use natives::Natives;
-use bcrypt::{hash,verify};
-use std::sync::mpsc::{Sender,Receiver,channel};
+use std::sync::mpsc::{Sender,Receiver};
+use internals::Internal;
 
 define_native!(bcrypt_hash,playerid:u32,callback:String,input:String,cost:u32);
 define_native!(bcrypt_get_hash,contextid:usize,dest:ref Cell,size:usize);
@@ -22,48 +22,9 @@ pub struct SampBcrypt{
 
 impl SampBcrypt {
 	pub fn load(&mut self) -> bool {
-		let (hash_complete_send, hash_complete_receiver) = channel();
-		let (hash_start_sender, hash_start_receiver) = channel();
-		
-		self.hash_complete_receiver = Some(hash_complete_receiver);
-		self.hash_start_sender = Some(hash_start_sender);
-			
-		std::thread::spawn(move || {
-			for (playerid,callback,input,cost) in hash_start_receiver.iter() {
-				match hash(&input, cost){
-					Ok(hashed) =>{
-						hash_complete_send.send((playerid,callback,hashed)).unwrap();
-					},
-					Err(err)=>{
-						hash_complete_send.send((playerid,callback,String::from(""))).unwrap();
-						log!("**[SampBcrypt] Hash error {:?}",err);
-					}
-				}
-			}	
-		});
-
-		let (verify_complete_send, verify_complete_receiver) = channel();
-		let (verify_start_sender, verify_start_receiver) = channel();
-		
-		self.verify_complete_receiver = Some(verify_complete_receiver);
-		self.verify_start_sender = Some(verify_start_sender);
-		
-		std::thread::spawn(move || {
-			for (playerid,callback,input,hash) in verify_start_receiver.iter() {
-				match verify(&input, &hash){
-					Ok(success) =>{
-						verify_complete_send.send((playerid,callback,success)).unwrap();
-					},
-					Err(err)=>{
-						verify_complete_send.send((playerid,callback,false)).unwrap();
-						log!("**[SampBcrypt] Verify error {:?}",err);
-					}
-				}
-			}	
-		});
-
+		Internal::listen_for_hash_requests(self);
+		Internal::listen_for_verify_requests(self);
 		log!("**[SampBcrypt] Loaded!");
-
 		return true;
 	}
 
