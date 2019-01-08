@@ -4,5 +4,6 @@
 	"plugins":["samp_bcrypt"],
 	"gamemodes":["test"],
 	"hostname": "test",
-	"maxplayers": 32
+	"maxplayers": 32,
+	"mode": "y_testing"
 }
