@@ -11,16 +11,22 @@ matrix:
         packages:
         - gcc-multilib
         - libssl-dev:i386
+install:
+- curl https://raw.githubusercontent.com/Southclaws/sampctl/master/install-deb.sh | sh
+- sudo dpkg --add-architecture i386
+- sudo apt update && sudo apt install -y g++-multilib
 
 script:
-- cargo build --verbose --release
+- make setup
+- make release
+- make run
 
 deploy:
   provider: releases
   api_key:
-    secure: Enn2ksmS3aOxI10yJZ09PCFS02GvrfWug/HOPRJOA3Y26zS3yQ7gu9VgJ3DFr0ewcByoaWm0VKDuc4A7zhApD+ESXgjd8/v+WORCb/oupIKzlL7JvkC2mxEOjB5v7ZEI0yHkxcpA5uj3jXk4uuE6McMR0RMOEJ5vKzgIY+tCQ5cdvPJm6FNWTLtuKwAWIx4Td9B5mKYslPzWlDoY+9R0omtXAnl+5ivKkQB8u2PLwGaZgZkJL0ldIyzmbmkLTg3fIVI8gDP+JQ43HGlfRrWIa6MZQ0O3ROKIl0cnNDX3qi5NK87Uoe7lJ1F0EVSd5YgycHC8vbf3Jh8CdOiKTqJuion0z0jkdIXvjFQBPo88x/r6MXbRehn3nJPUnt08vUjrX3Yjd/AuMi7FArnosxxwiDzEmnWoVB+AZJsAUt/9RmBAB/cu5jJ0tgJ3x/GiXeQE1XR3ZTyDv+a/QgC+QwkELU6pk+pouvmwB/6YLZs+lr5LA1aizNFi5g92Dnh/cyWMZfJWRJXdtJPbRyp2Q7zvpZgC05yHYtCfxb7bBByb3+yfG9YkYGshUATcPUamAyT6TLqhgybuSwnn0WZy3oie1KCtlbx+k3e9u7Cb/2U7JUxOGcY5MmqBLI4NhJZS3pFRdKTzKf3Yep9CYYRwNjeHFYxFAVqXyttMv3kU9zo48nc=
+    secure: UDDrjbtiVAQ3ASLsoTNO97MFn0UUvIEeGF2zUM/n3J2v/hg4IxqXPSsneLrWFfLGqW5kONdNlKbDMwcKBGGCVl89SM+WzxpOmdestvu9FHDb+igkjhQQjtNvIkkbamVyiSxSRrg5DEXud2Z9orOWcE051PivElp5kfySuKpmGNz4YMc4gNHGj8t5vN7adtd5IYSGkY+vmXRbQr842VzdZNkcZ5MIZIosYWmHBkJY0pOuuqLuXzzicpFbBJCX6U0tt8LCEXeFKGcPUiseIrK8niw/iXAd5efF+WN2BJbfLKJTv3mihwiGECk/n+KdQR4mAHeMwrazshPxiljnMQf/kAascV34uBNkM+h+mjvbiksdWV9wpNcaXYomFlZtq/eq561TQsZyRHr6oDffMPoctg342P8KookVrPu5kovgISddvK+MPiQCL7fCgF5vv4OjHSmm4XwAeAZuHL4p0iXOuz2QVMleBIDqbAJAvs/ISD9P0Z/haHTgoVCLzP6crmN7GTmxKRlYkSJPq+GHBlX+kSR39P6bVrfxq581frjFB5HPr21M5DlSuqCaiLTOnmFCg/5KrwzASEWXZ7Av9BFLXsP78bqu2uxKbre0MCb2NFZN2g+eFbMVyDWxHxhrSIWgv8qXMtgFKIdHYu/4oR2RoIF4myPVwWYKydBvYozcXJk=
   file: target/release/libsamp_bcrypt.so
   skip_cleanup: true
   draft: true
   on:
-    repo: sreyas-sreelal/samp-bcrypt
+    repo: Sreyas-Sreelal/samp-bcrypt
