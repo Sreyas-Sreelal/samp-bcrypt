@@ -11,7 +11,7 @@ matrix:
         packages:
         - gcc-multilib
         - libssl-dev:i386
-				- g++-multilib
+        - g++-multilib
 install:
 - curl https://raw.githubusercontent.com/Southclaws/sampctl/master/install-deb.sh | sh
 
