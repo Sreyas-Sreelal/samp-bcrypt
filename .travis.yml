@@ -1,5 +1,6 @@
 language: rust
-
+dist: trusty
+sudo: enabled
 matrix:
   fast_finish: true
   include:
