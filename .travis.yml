@@ -16,7 +16,6 @@ matrix:
 install:
 - curl https://raw.githubusercontent.com/Southclaws/sampctl/master/install-deb.sh | sh
 
-
 script:
 - make setup
 - make release
