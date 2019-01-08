@@ -8,7 +8,86 @@
 #endif
 #define _samp_bcrypt_included
 
+/*
+bcrypt_hash(playerid,callback[],input[],cost)
+	Params
+		`playerid` - id of the player
+		`callback[]` - callback to execute after hashing
+		`input[]` - string to hash
+		`cost` - work factor (4 - 31)
+
+	Example
+		```
+		main(){
+			bcrypt_hash(0,"OnPassswordHash","text",12);
+		}
+		forward OnPassswordHash(playerid,hashid);
+		public OnPassswordHash(playerid,hashid){
+			//hashid is id of stored result in memory
+		}
+		```
+*/
 native bcrypt_hash(playerid,callback[],input[],cost);
+/*
+bcrypt_verify(playerid,callback[],input[],hash[])
+	Params
+		`playerid` - id of the player
+		`callback[]` - callback to execute after hashing
+		`input[]` - text to compare with hash
+		`hash[]` - hash to compare with text
+	Example
+		```
+		main(){
+			bcrypt_verify(0,"OnPassswordVerify","text","$2y$12$lSzxFYNULh7weMGb8tf0beY1Lkb429nF.umuO/n0O.Q3U6wb1h5x.
+");
+		}
+		forward OnPassswordVerify(playerid,bool:success);
+		public OnPassswordVerify(playerid,bool:success){
+			//success denotes verifying was successful or not
+			if(success){
+				//verfied
+			} else{
+				//hash doesn't match with text
+			}
+		}
+		```
+*/
 native bcrypt_verify(playerid,callback[],input[],hash[]);
+/*
+bcrypt_get_hash(context,dest[],size = sizeof(hash))
+	Params
+		`context` - id of stored result
+		`dest[]` - string to store hashed data
+		`size` - max size of dest string
+	Example
+		```
+		main(){
+			bcrypt_hash(0,"OnPassswordHash","text",12);
+		}
+		forward OnPassswordHash(playerid,hashid);
+		public OnPassswordHash(playerid,hashid){
+			new dest[250];
+			bcrypt_get_hash(hashid,dest);
+			printf("hash : %s",dest);
+		}
+		```
+*/
 native bcrypt_get_hash(context,hash[],size = sizeof(hash));
+/*
+bcrypt_delete(context)
+	Params
+		`context` - id of stored result
+	Example
+		```
+		main(){
+			bcrypt_hash(0,"OnPassswordHash","text",12);
+		}
+		forward OnPassswordHash(playerid,hashid);
+		public OnPassswordHash(playerid,hashid){
+			new dest[250];
+			bcrypt_get_hash(hashid,dest);
+			bcrypt_delete(hashid); //must be called after usage of dest is over
+		}
+		```
+*/
 native bcrypt_delete(context);
