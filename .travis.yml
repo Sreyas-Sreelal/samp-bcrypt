@@ -14,7 +14,7 @@ matrix:
 install:
 - curl https://raw.githubusercontent.com/Southclaws/sampctl/master/install-deb.sh | sh
 - sudo dpkg --add-architecture i386
-- sudo apt update && sudo apt install -y g++-multilib
+- sudo apt update && sudo apt-get install -y apt-transport-https sudo apt install -y g++-multilib
 
 script:
 - make setup
