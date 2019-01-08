@@ -75,6 +75,6 @@ A bcrypt plugin for samp in Rust.
 	public OnPassswordHash(playerid,hashid){
 		new dest[250];
 		bcrypt_get_hash(hashid,dest);
-		bcrypt_delete(hashid); //must be called after usage of dest if over
+		bcrypt_delete(hashid); //must be called after usage of dest is over
 	}
 	```
