@@ -12,6 +12,7 @@ Cargo.lock
 *amx
 *dll
 *so
+*zip
 
 /dependencies/
 
