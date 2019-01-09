@@ -1,5 +1,37 @@
 # SampBcrypt
+[![Build Status](https://travis-ci.org/Sreyas-Sreelal/samp-bcrypt.svg?branch=master)](https://travis-ci.org/Sreyas-Sreelal/samp-bcrypt)
+[![sampctl-supported](https://shields.southcla.ws/badge/sampctl-SampBcrypt-2f2f2f.svg)](https://github.com/Sreyas-Sreelal/samp-bcrypt)
+[![GitHub issues](https://img.shields.io/github/issues/Sreyas-Sreelal/samp-bcrypt.svg)](https://github.com/Sreyas-Sreelal/samp-bcrypt/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/sreyas-sreelal/samp-bcrypt.svg)](https://github.com/Sreyas-Sreelal/samp-bcrypt/pulls) [![GitHub pull license](https://img.shields.io/github/license/sreyas-sreelal/samp-bcrypt.svg)](LICENSE) 
+
 A bcrypt plugin for samp in Rust.
+
+## Installation
+### sampctl
+If you are a sampctl user
+`sampctl p install Sreyas-Sreelal/samp-bcrypt`
+
+### OR
+* Download suitable binary files from releases for your operating system
+* Add it your `plugins` folder
+* Add `samp_bcrypt` to server.cfg or  `samp_bcrypt.so` (for linux)
+* Add [samp_bcrypt.inc](include/samp_bcrypt.inc) in includes folder
+
+## Building
+* Clone the repo
+
+	`git clone https://github.com/Sreyas-Sreelal/samp-bcrypt.git`
+* Setup testing server
+	
+	`make setup`
+
+* Build using makefile
+
+	`make release` for release builds
+	
+	`make debug` for debug builds
+* Run the tests
+
+	`make run`
 
 ## API 
 * #### bcrypt_hash(playerid,callback[],input[],cost)
@@ -7,7 +39,8 @@ A bcrypt plugin for samp in Rust.
 	* `callback[]` - callback to execute after hashing
 	* `input[]` - string to hash
 	* `cost` - work factor (4 - 31)
-	>usage
+	
+	**Example**
 	```Pawn
 	main(){
 		bcrypt_hash(0,"OnPassswordHash","text",12);
@@ -22,7 +55,8 @@ A bcrypt plugin for samp in Rust.
 	* `context` - id of stored result
 	* `dest[]` - string to store hashed data
 	* `size` - max size of dest string
-	>usage
+	
+	**Example**
 	```Pawn
 	main(){
 		bcrypt_hash(0,"OnPassswordHash","text",12);
@@ -40,7 +74,8 @@ A bcrypt plugin for samp in Rust.
 	* `callback[]` - callback to execute after hashing
 	* `input[]` - text to compare with hash
 	* `hash[]` - hash to compare with text
-	>usage
+	
+	**Example**
 	```Pawn
 	main(){
 		bcrypt_hash(0,"OnPassswordHash","text",12);
@@ -65,7 +100,8 @@ A bcrypt plugin for samp in Rust.
 	```
 * #### bcrypt_delete(context)
 	* `context` - id of stored result
-	>usage
+	
+	**Example**
 	```Pawn
 	main(){
 		bcrypt_hash(0,"OnPassswordHash","text",12);
