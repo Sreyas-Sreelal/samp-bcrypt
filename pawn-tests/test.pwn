@@ -5,16 +5,15 @@
 
 #include "../include/samp_bcrypt.inc"
 
-
 Test:TestBcryptHash(){
-	bcrypt_hash(0,"OnPassswordHash","sreyas",12);
+	bcrypt_hash(0,"OnPassswordHash","text",12);
 }
 
 forward OnPassswordHash(playerid,hashid);
 public OnPassswordHash(playerid,hashid){
 	new dest[250];
 	bcrypt_get_hash(hashid,dest);
-	bcrypt_verify(playerid,"OnPassswordVerify","sreyas",dest);
+	bcrypt_verify(playerid,"OnPassswordVerify","text",dest);
 }
 
 forward OnPassswordVerify(playerid,bool:success);
