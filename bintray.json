@@ -1,0 +1,21 @@
+{
+    "package": {
+      "name": "builds",
+      "repo": "samp-bcrypt",
+      "subject": "sreyas-sreelal"
+    },
+    "version": {
+      "name": "latest"
+    },
+    "files": [
+      {
+        "includePattern": "test/plugins/samp_bcrypt.so",
+        "uploadPattern": "$1",
+        "matrixParams": {
+          "override": 1
+        }
+      }
+    ],
+    "publish": true
+  }
+  
