@@ -3,7 +3,7 @@ ifdef OS
 	BINARYNAME = samp_bcrypt.dll
 	OUPUTNAME = samp_bcrypt.dll
 	CP_RELEASE = copy .\target\release\$(BINARYNAME) .\test\plugins\$(OUPUTNAME)
-	CP_DEBUG = copy .\target\debug\$(BINARYNAME) .\test/plugins/$(OUPUTNAME)
+	CP_DEBUG = copy .\target\debug\$(BINARYNAME) .\test\plugins\$(OUPUTNAME)
 else
 	ifeq ($(shell uname), Linux)
 		TOOLCHAIN = +nightly-i686-unknown-linux-gnu
