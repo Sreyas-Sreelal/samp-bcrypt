@@ -2,13 +2,12 @@
 extern crate samp_sdk;
 extern crate bcrypt;
 
-#[macro_use] 
+#[macro_use]
 mod macros;
-mod plugin;
-mod natives;
 mod internals;
+mod natives;
+mod plugin;
 
 use plugin::SampBcrypt;
 
 new_plugin!(SampBcrypt with process_tick);
-
