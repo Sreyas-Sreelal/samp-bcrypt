@@ -3,7 +3,7 @@ dist: trusty
 matrix:
   fast_finish: true
   include:
-  - rust: nightly-i686
+  - rust: stable-i686
     os: linux
     addons:
       apt:

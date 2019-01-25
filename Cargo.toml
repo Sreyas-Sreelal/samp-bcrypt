@@ -8,5 +8,5 @@ name = "samp_bcrypt"
 crate-type = ["cdylib"]
 
 [dependencies]
-samp-sdk = "0.8.4"
+samp-sdk = {git = "https://github.com/ZOTTCE/samp-sdk"}
 bcrypt = "0.2.1"
