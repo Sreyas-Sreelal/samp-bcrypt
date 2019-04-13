@@ -20,13 +20,13 @@
 			"name": "samp-bcrypt-linux-x86.zip",
 			"platform": "linux",
 			"archive": true,
-			"plugins": ["plugins/samp-bcrypt.so"]
+			"plugins": ["plugins/samp_bcrypt.so"]
 		},
 		{
 			"name": "samp-bcrypt-windows-x86.zip",
 			"platform": "windows",
 			"archive": true,
-			"plugins": ["plugins/samp-bcrypt.dll"]
+			"plugins": ["plugins/samp_bcrypt.dll"]
 		}
 	]
 }
