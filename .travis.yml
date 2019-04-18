@@ -1,5 +1,7 @@
 language: rust
 dist: trusty
+cache: cargo
+
 matrix:
   fast_finish: true
   include:
@@ -13,7 +15,7 @@ matrix:
         - g++-multilib
         - apt-transport-https
 before_install:
-- cd $HOME && curl -Ls https://github.com/Southclaws/sampctl/releases/download/1.8.37/sampctl_1.8.37_linux_amd64.tar.gz
+- cd $HOME && curl -Ls https://github.com/Southclaws/sampctl/releases/download/1.8.38/sampctl_1.8.38_linux_amd64.tar.gz
   -o ./bin/tmp.tar.gz
 - cd bin && tar xzf tmp.tar.gz && rm tmp.tar.gz
 - alias sampctl=$HOME/bin/sampctl
