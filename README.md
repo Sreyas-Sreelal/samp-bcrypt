@@ -1,7 +1,7 @@
 # SampBcrypt
 [![Build Status](https://travis-ci.org/Sreyas-Sreelal/samp-bcrypt.svg?branch=master)](https://travis-ci.org/Sreyas-Sreelal/samp-bcrypt)
 [![sampctl-supported](https://shields.southcla.ws/badge/sampctl-SampBcrypt-2f2f2f.svg)](https://github.com/Sreyas-Sreelal/samp-bcrypt)
-[![GitHub issues](https://img.shields.io/github/issues/Sreyas-Sreelal/samp-bcrypt.svg)](https://github.com/Sreyas-Sreelal/samp-bcrypt/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/sreyas-sreelal/samp-bcrypt.svg)](https://github.com/Sreyas-Sreelal/samp-bcrypt/pulls) [![GitHub pull license](https://img.shields.io/github/license/sreyas-sreelal/samp-bcrypt.svg)](LICENSE) 
+[![GitHub issues](https://img.shields.io/github/issues/Sreyas-Sreelal/samp-bcrypt.svg)](https://github.com/Sreyas-Sreelal/samp-bcrypt/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/sreyas-sreelal/samp-bcrypt.svg)](https://github.com/Sreyas-Sreelal/samp-bcrypt/pulls) [![GitHub pull license](https://img.shields.io/github/license/sreyas-sreelal/samp-bcrypt.svg)](LICENSE)
 
 A bcrypt plugin for samp in Rust.
 
@@ -21,51 +21,50 @@ If you are a sampctl user
 
 	`git clone https://github.com/Sreyas-Sreelal/samp-bcrypt.git`
 * Setup testing server
-	
+
 	`make setup`
 
 * Build using makefile
 
 	`make release` for release builds
-	
+
 	`make debug` for debug builds
 * Run the tests
 
 	`make run`
 
-## API 
+## API
 * #### bcrypt_hash(playerid,callback[],input[],cost)
 	* `playerid` - id of the player
 	* `callback[]` - callback to execute after hashing
 	* `input[]` - string to hash
 	* `cost` - work factor (4 - 31)
-	
+
 	**Example**
 	```Pawn
 	main(){
 		bcrypt_hash(0,"OnPassswordHash","text",12);
 	}
 
-	forward OnPassswordHash(playerid,hashid);
-	public OnPassswordHash(playerid,hashid){
-		//hashid is id of stored result in memory
+	forward OnPassswordHash(playerid);
+	public OnPassswordHash(playerid){
+		//hashing completed
 	}
 	```
 *  #### bcrypt_get_hash(context,dest[],size = sizeof(hash))
-	* `context` - id of stored result
 	* `dest[]` - string to store hashed data
 	* `size` - max size of dest string
-	
+
 	**Example**
 	```Pawn
 	main(){
 		bcrypt_hash(0,"OnPassswordHash","text",12);
 	}
 
-	forward OnPassswordHash(playerid,hashid);
-	public OnPassswordHash(playerid,hashid){
+	forward OnPassswordHash(playerid);
+	public OnPassswordHash(playerid){
 		new dest[250];
-		bcrypt_get_hash(hashid,dest);
+		bcrypt_get_hash(dest);
 		printf("hash : %s",dest);
 	}
 	```
@@ -74,17 +73,17 @@ If you are a sampctl user
 	* `callback[]` - callback to execute after hashing
 	* `input[]` - text to compare with hash
 	* `hash[]` - hash to compare with text
-	
+
 	**Example**
 	```Pawn
 	main(){
 		bcrypt_hash(0,"OnPassswordHash","text",12);
 	}
 
-	forward OnPassswordHash(playerid,hashid);
-	public OnPassswordHash(playerid,hashid){
+	forward OnPassswordHash(playerid);
+	public OnPassswordHash(playerid){
 		new dest[250];
-		bcrypt_get_hash(hashid,dest);
+		bcrypt_get_hash(dest);
 		bcrypt_verify(playerid,"OnPassswordVerify","text",dest);
 	}
 
@@ -96,21 +95,5 @@ If you are a sampctl user
 		} else{
 			//hash doesn't match with text
 		}
-	}
-	```
-* #### bcrypt_delete(context)
-	* `context` - id of stored result
-	
-	**Example**
-	```Pawn
-	main(){
-		bcrypt_hash(0,"OnPassswordHash","text",12);
-	}
-
-	forward OnPassswordHash(playerid,hashid);
-	public OnPassswordHash(playerid,hashid){
-		new dest[250];
-		bcrypt_get_hash(hashid,dest);
-		bcrypt_delete(hashid); //must be called after usage of dest is over
 	}
 	```

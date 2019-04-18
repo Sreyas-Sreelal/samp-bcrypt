@@ -1,77 +1,66 @@
-use samp_sdk::amx::{AmxResult, AMX};
-use samp_sdk::types::Cell;
+use crate::internals::*;
+use samp::cell::{AmxString, UnsizedBuffer};
+use samp::error::AmxResult;
+use samp::prelude::*;
+use samp::{native, AmxAsyncExt};
 
 impl super::SampBcrypt {
+    #[native(name = "bcrypt_hash")]
     pub fn bcrypt_hash(
         &mut self,
-        _: &AMX,
+        amx: &Amx,
         playerid: u32,
-        callback: String,
-        input: String,
+        callback: AmxString,
+        input: AmxString,
         cost: u32,
-    ) -> AmxResult<Cell> {
-        self.hash_start_sender
-            .as_ref()
-            .unwrap()
-            .send((playerid, callback, input, cost))
-            .unwrap();
-        Ok(1)
+    ) -> AmxResult<(bool)> {
+        let amx = amx.to_async();
+        let callback = callback.to_string();
+        let input = input.to_string();
+        let hashes = self.hashes.clone();
+
+        std::thread::spawn(move || {
+            hash_start(amx, playerid, input, callback, cost, hashes);
+        });
+
+        Ok(true)
     }
 
+    #[native(name = "bcrypt_get_hash")]
     pub fn bcrypt_get_hash(
         &mut self,
-        _: &AMX,
-        contextid: usize,
-        dest: &mut Cell,
+        _: &Amx,
+        dest: UnsizedBuffer,
         size: usize,
-    ) -> AmxResult<Cell> {
-        if contextid > self.hash_context_id {
-            log!(
-                "**[SampBcrypt] Invalid context id {:?} is passed",
-                contextid
-            );
-            Ok(0)
-        } else {
-            let hash = &self.hashes[contextid];
-            match samp_sdk::cp1251::encode(hash) {
-                Ok(hash_encoded) => {
-                    set_string!(hash_encoded, dest, size);
-                    Ok(1)
-                }
-                Err(err) => {
-                    log!("**[SampBcrypt] Encoding error cannot set hash to destination string \n {:?}",err);
-                    Ok(0)
-                }
+    ) -> AmxResult<bool> {
+        match self.hashes.lock().unwrap().front() {
+            Some(hash) => {
+                let mut dest = dest.into_sized_buffer(size);
+                let _ = samp::cell::string::put_in_buffer(&mut dest, &hash);
+                Ok(true)
             }
+            None => Ok(false),
         }
     }
 
-    pub fn bcrypt_delete(&mut self, _: &AMX, contextid: usize) -> AmxResult<Cell> {
-        if contextid > self.hash_context_id {
-            log!(
-                "**[SampBcrypt] Invalid context id {:?} is passed",
-                contextid
-            );
-            Ok(0)
-        } else {
-            self.hashes.remove(contextid);
-            Ok(1)
-        }
-    }
-
+    #[native(name = "bcrypt_verify")]
     pub fn bcrypt_verify(
         &mut self,
-        _: &AMX,
+        amx: &Amx,
         playerid: u32,
-        callback: String,
-        input: String,
-        hash: String,
-    ) -> AmxResult<Cell> {
-        self.verify_start_sender
-            .as_ref()
-            .unwrap()
-            .send((playerid, callback, input, hash))
-            .unwrap();
-        Ok(1)
+        callback: AmxString,
+        input: AmxString,
+        hash: AmxString,
+    ) -> AmxResult<bool> {
+        let callback = callback.to_string();
+        let input = input.to_string();
+        let hash = hash.to_string();
+        let amx = amx.to_async();
+
+        std::thread::spawn(move || {
+            hash_verify(amx, playerid, input, hash, callback);
+        });
+
+        Ok(true)
     }
 }

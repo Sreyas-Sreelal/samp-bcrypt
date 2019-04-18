@@ -26,3 +26,4 @@ samp-npc.exe
 
 server.cfg
 server_log.txt
+*.log

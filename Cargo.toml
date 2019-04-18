@@ -1,6 +1,7 @@
 [package]
 name = "samp-bcrypt"
 version = "0.1.0"
+edition = "2018"
 authors = ["Sreyas <Sreyassreelal@gmail.com>"]
 
 [lib]
@@ -8,5 +9,7 @@ name = "samp_bcrypt"
 crate-type = ["cdylib"]
 
 [dependencies]
-samp-sdk = {git = "https://github.com/ZOTTCE/samp-sdk"}
+samp = {git="https://github.com/ZOTTCE/samp-rs/",branch="async-amx",features = ["async"]}
 bcrypt = "0.2.1"
+log = "0.4.6"
+fern = "0.5.7"
