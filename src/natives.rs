@@ -13,7 +13,7 @@ impl super::SampBcrypt {
         callback: AmxString,
         input: AmxString,
         cost: u32,
-    ) -> AmxResult<(bool)> {
+    ) -> AmxResult<bool> {
         let amx = amx.to_async();
         let callback = callback.to_string();
         let input = input.to_string();

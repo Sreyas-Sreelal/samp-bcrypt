@@ -32,9 +32,8 @@ initialize_plugin!(
             .chain(trace_level)
             .apply();
 
-        let plugin = SampBcrypt {
+        SampBcrypt {
             hashes: Arc::new(Mutex::new(LinkedList::new())),
-        };
-        plugin
+        }
     }
 );
