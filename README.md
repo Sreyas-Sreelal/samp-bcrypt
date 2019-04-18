@@ -51,7 +51,7 @@ If you are a sampctl user
 		//hashing completed
 	}
 	```
-*  #### bcrypt_get_hash(context,dest[],size = sizeof(hash))
+*  #### bcrypt_get_hash(dest[],size = sizeof(hash))
 	* `dest[]` - string to store hashed data
 	* `size` - max size of dest string
 
