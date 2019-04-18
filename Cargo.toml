@@ -8,6 +8,10 @@ authors = ["Sreyas <Sreyassreelal@gmail.com>"]
 name = "samp_bcrypt"
 crate-type = ["cdylib"]
 
+[profile.release]
+lto = true
+panic = "abort"
+
 [dependencies]
 samp = {git="https://github.com/ZOTTCE/samp-rs/",branch="async-amx",features = ["async"]}
 bcrypt = "0.2.1"
