@@ -2,10 +2,11 @@
 	"user": "Sreyas-Sreelal",
 	"repo": "samp-bcrypt",
 	"entry": "pawn-tests/test.pwn",
-	"output": "test/gamemodes/test.amx",
+	"output": "gamemodes/test.amx",
 	"dependencies": ["sampctl/pawn-stdlib"],
 	"dev_dependencies": ["pawn-lang/YSI-Includes"],
 	"include_path": "include",
+	"local": true,
 	"builds": [
 		{
 			"name": "test",
@@ -13,7 +14,13 @@
 		}
 	],
 	"runtime": {
-		"plugins": ["Sreyas-Sreelal/samp-bcrypt"]
+		"rcon_password": "|%GuRd324$\u0026|",
+		"port": 7777,
+		"plugins":["samp_bcrypt"],
+		"gamemodes":["test"],
+		"hostname": "test",
+		"maxplayers": 32,
+		"mode": "y_testing"
 	},
 	"resources": [
 		{
