@@ -17,3 +17,4 @@ samp = {git="https://github.com/ZOTTCE/samp-rs/",branch="async-amx",features = [
 bcrypt = "0.2.1"
 log = "0.4.6"
 fern = "0.5.7"
+threadpool = "1.7.1"

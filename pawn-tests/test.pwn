@@ -5,6 +5,12 @@
 
 #include "../include/samp_bcrypt.inc"
 
+Test:TestBcryptSetNumThreads(){
+	ASSERT(bcrypt_set_thread_limit(-1) == 0);
+	ASSERT(bcrypt_set_thread_limit(0) == 0);
+	ASSERT(bcrypt_set_thread_limit(3) == 1);
+}
+
 Test:TestBcryptHash(){
 	bcrypt_hash(0,"OnPassswordHash","text",12);
 	bcrypt_hash(0,"OnPassswordHash2","test",4);

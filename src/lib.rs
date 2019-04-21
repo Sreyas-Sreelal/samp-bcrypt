@@ -6,15 +6,16 @@ use plugin::SampBcrypt;
 use samp::initialize_plugin;
 use std::collections::LinkedList;
 use std::sync::{Arc, Mutex};
+use threadpool::ThreadPool;
 
 initialize_plugin!(
     natives: [
         SampBcrypt::bcrypt_hash,
         SampBcrypt::bcrypt_get_hash,
-        SampBcrypt::bcrypt_verify
+        SampBcrypt::bcrypt_verify,
+        SampBcrypt::bcrypt_set_thread_limit
     ],
     {
-        samp::plugin::enable_process_tick();
         let samp_logger = samp::plugin::logger()
             .level(log::LevelFilter::Info);
 
@@ -34,6 +35,7 @@ initialize_plugin!(
 
         SampBcrypt {
             hashes: Arc::new(Mutex::new(LinkedList::new())),
+            pool: ThreadPool::new(3)
         }
     }
 );

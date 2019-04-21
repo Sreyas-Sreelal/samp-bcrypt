@@ -54,7 +54,7 @@ bcrypt_verify(playerid,callback[],input[],hash[])
 */
 native bcrypt_verify(playerid,callback[],input[],hash[]);
 /*
-bcrypt_get_hash(context,dest[],size = sizeof(hash))
+bcrypt_get_hash(dest[],size = sizeof(hash))
 	Params
 		`dest[]` - string to store hashed data
 		`size` - max size of dest string
@@ -72,3 +72,16 @@ bcrypt_get_hash(context,dest[],size = sizeof(hash))
 		```
 */
 native bcrypt_get_hash(hash[],size = sizeof(hash));
+
+/*
+bcrypt_set_thread_limit(value)
+	Params
+		`value` - number of worker threads at a time
+	Example
+		```
+		main(){
+			bcrypt_set_thread_limit(3);
+		}
+		```
+*/
+native bcrypt_set_thread_limit(value);
