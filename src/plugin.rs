@@ -6,13 +6,13 @@ use threadpool::ThreadPool;
 
 pub struct SampBcrypt {
     pub hashes: Arc<Mutex<LinkedList<String>>>,
-    pub pool: ThreadPool
-    
+    pub pool: ThreadPool,
 }
 
 impl SampPlugin for SampBcrypt {
     fn on_load(&mut self) {
-        info!(" 
+        info!(
+            " 
    ###############################################################
    #                      SampBcrypt                             #
    #                        V0.2.0 Loaded!!                      #
@@ -20,7 +20,8 @@ impl SampPlugin for SampBcrypt {
    #       https://github.com/Sreyas-Sreelal/samp-bcrypt/issues  #
    #                                                             #
    ###############################################################
-        ");
+        "
+        );
     }
 
     fn on_unload(self: Box<SampBcrypt>) {

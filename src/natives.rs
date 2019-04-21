@@ -1,9 +1,9 @@
 use crate::internals::*;
+use log::error;
 use samp::cell::{AmxString, UnsizedBuffer};
 use samp::error::AmxResult;
 use samp::prelude::*;
 use samp::{native, AmxAsyncExt};
-use log::error;
 
 impl super::SampBcrypt {
     #[native(name = "bcrypt_hash")]
@@ -65,8 +65,8 @@ impl super::SampBcrypt {
         Ok(true)
     }
 
-    #[native(name="bcrypt_set_thread_limit")]
-    pub fn bcrypt_set_thread_limit(&mut self,_:&Amx,value:i32) -> AmxResult<bool> {
+    #[native(name = "bcrypt_set_thread_limit")]
+    pub fn bcrypt_set_thread_limit(&mut self, _: &Amx, value: i32) -> AmxResult<bool> {
         if value < 1 {
             error!("Number of threads must be atleast 1");
             return Ok(false);
