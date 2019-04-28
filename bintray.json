@@ -10,7 +10,7 @@
     "files": [
       {
         "includePattern": "plugins/samp_bcrypt.so",
-        "uploadPattern": "samp_bcrypt",
+        "uploadPattern": "samp_bcrypt.so",
         "matrixParams": {
           "override": 1
         }
