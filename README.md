@@ -1,5 +1,6 @@
 # SampBcrypt
 [![Build Status](https://travis-ci.org/Sreyas-Sreelal/samp-bcrypt.svg?branch=master)](https://travis-ci.org/Sreyas-Sreelal/samp-bcrypt)
+[![Build status](https://ci.appveyor.com/api/projects/status/5rq55kukvy8xymly?svg=true)](https://ci.appveyor.com/project/Sreyas-Sreelal/samp-bcrypt)
 [![sampctl-supported](https://shields.southcla.ws/badge/sampctl-SampBcrypt-2f2f2f.svg)](https://github.com/Sreyas-Sreelal/samp-bcrypt)
 [![GitHub issues](https://img.shields.io/github/issues/Sreyas-Sreelal/samp-bcrypt.svg)](https://github.com/Sreyas-Sreelal/samp-bcrypt/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/sreyas-sreelal/samp-bcrypt.svg)](https://github.com/Sreyas-Sreelal/samp-bcrypt/pulls) [![GitHub pull license](https://img.shields.io/github/license/sreyas-sreelal/samp-bcrypt.svg)](LICENSE)
 
