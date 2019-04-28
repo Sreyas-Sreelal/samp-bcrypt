@@ -278,7 +278,7 @@ dependencies = [
 
 [[package]]
 name = "samp-bcrypt"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "bcrypt 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "fern 0.5.8 (registry+https://github.com/rust-lang/crates.io-index)",

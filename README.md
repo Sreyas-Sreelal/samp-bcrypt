@@ -97,3 +97,12 @@ If you are a sampctl user
 		}
 	}
 	```
+* ### bcrypt_set_thread_limit(value)
+	* `value` - number of worker threads at a time
+
+	**Example**
+	```Pawn
+	main(){
+		bcrypt_set_thread_limit(3);
+	}
+	```
