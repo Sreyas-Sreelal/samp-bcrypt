@@ -1,7 +1,7 @@
 #define RUN_TESTS
 
 #include <a_samp>
-#include <YSI\y_testing>
+#include <YSI_Core\y_testing>
 
 #include "../include/samp_bcrypt.inc"
 
