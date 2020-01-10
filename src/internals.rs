@@ -1,29 +1,20 @@
 use bcrypt::{hash, verify};
 use log::error;
-use samp::{exec_public, AmxLockError, AsyncAmx};
-use std::collections::LinkedList;
-use std::sync::{Arc, Mutex};
+use std::sync::mpsc::Sender;
 
-pub fn hash_verify(amx: AsyncAmx, playerid: u32, input: String, hash: String, callback: String) {
+pub fn hash_verify(
+    verify_sender: Option<Sender<(u32, String, bool)>>,
+    playerid: u32,
+    input: String,
+    hash: String,
+    callback: String,
+) {
     match verify(&input, &hash) {
         Ok(success) => {
-            let amx = match amx.lock() {
-                Err(AmxLockError::AmxGone) => {
-                    error!("{} => AMX is gone", callback);
-                    return;
-                }
-                Err(_) => {
-                    error!("{} => mutex is poisoned", callback);
-                    return;
-                }
-                Ok(amx) => amx,
-            };
-            match exec_public!(amx, &callback, playerid, success) {
-                Ok(_) => {}
-                Err(err) => {
-                    error!("Unable to execute {:?} => {:?}", callback, err);
-                }
-            };
+            let _ = verify_sender
+                .as_ref()
+                .unwrap()
+                .send((playerid, callback, success));
         }
         Err(err) => {
             error!("{} => {:?}", callback, err);
@@ -32,38 +23,19 @@ pub fn hash_verify(amx: AsyncAmx, playerid: u32, input: String, hash: String, ca
 }
 
 pub fn hash_start(
-    amx: AsyncAmx,
+    hash_sender: Option<Sender<(u32, String, String)>>,
     playerid: u32,
     input: String,
     callback: String,
     cost: u32,
-    hashes: Arc<Mutex<LinkedList<String>>>,
 ) {
     match hash(&input, cost) {
         Ok(hashed) => {
-            let amx = match amx.lock() {
-                Ok(amx) => amx,
-                Err(AmxLockError::AmxGone) => {
-                    error!("{} => AMX is gone", callback);
-                    return;
-                }
-                Err(_) => {
-                    error!("{} => mutex is poisoned", callback);
-                    return;
-                }
-            };
-
-            hashes.lock().unwrap().push_front(hashed);
-
-            match exec_public!(amx, &callback, playerid) {
-                Ok(_) => {}
-                Err(err) => {
-                    error!("Unable to execute {:?} => {:?}", callback, err);
-                }
-            }
-            hashes.lock().unwrap().clear();
+            let _ = hash_sender
+                .as_ref()
+                .unwrap()
+                .send((playerid, callback, hashed));
         }
-
         Err(err) => {
             error!("{} => {:?}", callback, err);
         }
