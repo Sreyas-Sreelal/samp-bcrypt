@@ -9,7 +9,7 @@
 #define _samp_bcrypt_included
 
 /*
-bcrypt_hash(playerid,callback[],input[],cost)
+bcrypt_hash(playerid, const callback[], const input[],cost)
 	Params
 		`playerid` - id of the player
 		`callback[]` - callback to execute after hashing
@@ -27,7 +27,7 @@ bcrypt_hash(playerid,callback[],input[],cost)
 		}
 		```
 */
-native bcrypt_hash(playerid,callback[],input[],cost);
+native bcrypt_hash(playerid, const callback[], const input[],cost);
 /*
 bcrypt_verify(playerid,callback[],input[],hash[])
 	Params
@@ -52,7 +52,7 @@ bcrypt_verify(playerid,callback[],input[],hash[])
 		}
 		```
 */
-native bcrypt_verify(playerid,callback[],input[],hash[]);
+native bcrypt_verify(playerid, const callback[], const input[], const hash[]);
 /*
 bcrypt_get_hash(dest[],size = sizeof(hash))
 	Params
@@ -71,7 +71,7 @@ bcrypt_get_hash(dest[],size = sizeof(hash))
 		}
 		```
 */
-native bcrypt_get_hash(hash[],size = sizeof(hash));
+native bcrypt_get_hash(const hash[], size = sizeof(hash));
 
 /*
 bcrypt_set_thread_limit(value)
