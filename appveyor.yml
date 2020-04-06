@@ -38,5 +38,4 @@ deploy:
     repo: samp-bcrypt
     package: builds
     publish: true
-    version: latest
     override: true
