@@ -1,6 +1,6 @@
 [package]
 name = "samp-bcrypt"
-version = "0.2.2"
+version = "0.2.3"
 edition = "2018"
 authors = ["Sreyas <Sreyassreelal@gmail.com>"]
 
@@ -13,7 +13,7 @@ lto = true
 panic = "abort"
 
 [dependencies]
-samp = {git="https://github.com/ZOTTCE/samp-rs/",branch="async-amx",features = ["async"]}
+samp = {git="https://github.com/ZOTTCE/samp-rs/",branch="potential-fix"}
 bcrypt = "0.2.1"
 log = "0.4.6"
 fern = "0.5.7"
