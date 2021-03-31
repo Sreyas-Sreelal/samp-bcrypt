@@ -14,6 +14,7 @@ Test:TestBcryptSetNumThreads(){
 Test:TestBcryptHash(){
 	bcrypt_hash(0,"OnPassswordHash","text",12);
 	bcrypt_hash(0,"OnPassswordHash2","test",4);
+	bcrypt_hash(0,"OnPassswordHash3","test",4,"issf",69,"hello","world",10.0);
 }
 
 forward OnPassswordHash(playerid);
@@ -24,6 +25,24 @@ public OnPassswordHash(playerid){
 	printf("hash is %s",dest);
 	bcrypt_verify(playerid,"OnPassswordVerifyValid","text",dest);
 	bcrypt_verify(playerid,"OnPassswordVerifyInvalid","test",dest);
+}
+
+forward OnPassswordHash3(playerid,int1,str1[],str2[],Float:float1);
+public OnPassswordHash3(playerid,int1,str1[],str2[],Float:float1){
+	printf("***OnPassswordHash3");
+	ASSERT(int1 == 69);
+	new comp1 = strcmp("hello",str1);
+	new comp2 = strcmp("world",str2);
+	
+	ASSERT(int1 == 69);
+	ASSERT(comp1 == 0);
+	ASSERT(comp2 == 0);
+	ASSERT(float1 == 10.0);
+	new dest[250];
+	bcrypt_get_hash(dest);
+	printf("hash is %s",dest);
+	bcrypt_verify(playerid,"OnPassswordVerifyInvalid","text",dest);
+	bcrypt_verify(playerid,"OnPassswordVerifyValid","test",dest);
 }
 
 forward OnPassswordHash2(playerid);

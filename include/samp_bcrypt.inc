@@ -27,7 +27,7 @@ bcrypt_hash(playerid, const callback[], const input[],cost)
 		}
 		```
 */
-native bcrypt_hash(playerid, const callback[], const input[],cost);
+native bcrypt_hash(playerid, const callback[], const input[],cost,const args[] = "", {Float, _}:...);
 /*
 bcrypt_verify(playerid,callback[],input[],hash[])
 	Params

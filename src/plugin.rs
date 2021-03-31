@@ -1,3 +1,4 @@
+use crate::internals::ArgumentTypes;
 use log::{error, info};
 use samp::amx::AmxIdent;
 use samp::exec_public;
@@ -10,8 +11,8 @@ use threadpool::ThreadPool;
 pub struct SampBcrypt {
     pub hashes: LinkedList<String>,
     pub pool: ThreadPool,
-    pub hash_sender: Option<Sender<(u32, String, String)>>,
-    pub hash_receiver: Option<Receiver<(u32, String, String)>>,
+    pub hash_sender: Option<Sender<(u32, String, String, Vec<ArgumentTypes>)>>,
+    pub hash_receiver: Option<Receiver<(u32, String, String, Vec<ArgumentTypes>)>>,
     pub verify_sender: Option<Sender<(u32, String, bool)>>,
     pub verify_receiver: Option<Receiver<(u32, String, bool)>>,
     pub amx_list: Vec<AmxIdent>,
@@ -19,7 +20,7 @@ pub struct SampBcrypt {
 
 impl SampPlugin for SampBcrypt {
     fn on_load(&mut self) {
-        info!("Version: 0.2.3");
+        info!("Version: 0.3.0");
         let (verify_sender, verify_receiver) = channel();
         self.verify_sender = Some(verify_sender);
         self.verify_receiver = Some(verify_receiver);
@@ -40,13 +41,41 @@ impl SampPlugin for SampBcrypt {
     }
 
     fn process_tick(&mut self) {
-        for (playerid, callback, hashed) in self.hash_receiver.as_ref().unwrap().try_iter() {
+        for (playerid, callback, hashed, optional_args) in
+            self.hash_receiver.as_ref().unwrap().try_iter()
+        {
             let mut executed = false;
             self.hashes.push_front(hashed);
+
             for amx in &self.amx_list {
                 if let Some(amx) = samp::amx::get(*amx) {
-                    let _ = exec_public!(amx, &callback, playerid);
-                    executed = true;
+                    let allocator = amx.allocator();
+
+                    for param in optional_args.iter().rev() {
+                        match param {
+                            ArgumentTypes::Primitive(x) => {
+                                if amx.push(x).is_err() {
+                                    error!("*Cannot execute callback {:?}", callback);
+                                }
+                            }
+                            ArgumentTypes::String(data) => {
+                                let buf = allocator.allot_buffer(data.len() + 1).unwrap();
+                                let amx_str = unsafe { AmxString::new(buf, data) };
+                                if amx.push(amx_str).is_err() {
+                                    error!("*Cannot execute callback {:?}", callback);
+                                }
+                            }
+                        }
+                    }
+                    if amx.push(playerid).is_err() {
+                        error!("*Cannot execute callback {:?}", callback);
+                    }
+                    if let Ok(index) = amx.find_public(&callback) {
+                        amx.exec(index).unwrap();
+                        executed = true;
+                    } else {
+                        error!("*Cannot execute callback {:?}", callback);
+                    }
                 }
             }
             if !executed {

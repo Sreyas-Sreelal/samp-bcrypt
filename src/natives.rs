@@ -1,23 +1,56 @@
+use crate::internals::ArgumentTypes;
 use crate::internals::*;
 use log::error;
+use samp::error::AmxError;
 use samp::native;
 use samp::prelude::*;
 
 impl super::SampBcrypt {
-    #[native(name = "bcrypt_hash")]
-    pub fn bcrypt_hash(
-        &mut self,
-        _: &Amx,
-        playerid: u32,
-        callback: AmxString,
-        input: AmxString,
-        cost: u32,
-    ) -> AmxResult<bool> {
-        let callback = callback.to_string();
-        let input = input.to_string();
+    #[native(raw, name = "bcrypt_hash")]
+    pub fn bcrypt_hash(&mut self, amx: &Amx, mut args: samp::args::Args) -> AmxResult<bool> {
+        let playerid = args.next::<u32>().ok_or(AmxError::Params)?;
+        let callback = args
+            .next::<AmxString>()
+            .ok_or(AmxError::Params)?
+            .to_string();
+        let input = args
+            .next::<AmxString>()
+            .ok_or(AmxError::Params)?
+            .to_string();
+        let cost = args.next::<u32>().ok_or(AmxError::Params)?;
+        let format = args.next::<AmxString>().ok_or(AmxError::Params)?.to_bytes();
+        if format.len() != args.count() - 5 {
+            error!(
+                "The argument count mismatch expected :{} provided: {}.",
+                format.len(),
+                args.count() - 5
+            );
+            return Ok(false);
+        }
         let sender = self.hash_sender.clone();
+        let mut optional_args: Vec<ArgumentTypes> = Vec::new();
+
+        for specifiers in format {
+            match specifiers {
+                b'd' | b'i' | b'f' => {
+                    optional_args.push(ArgumentTypes::Primitive(
+                        *args.next::<Ref<i32>>().ok_or(AmxError::Params)?,
+                    ));
+                }
+                b's' => {
+                    let argument: Ref<i32> = args.next().ok_or(AmxError::Params)?;
+                    let amx_str = AmxString::from_raw(amx, argument.address())?;
+                    optional_args.push(ArgumentTypes::String(amx_str.to_bytes()));
+                }
+                _ => {
+                    error!("Unknown specifier type {}", specifiers);
+                    return Ok(false);
+                }
+            }
+        }
+
         self.pool.execute(move || {
-            hash_start(sender, playerid, input, callback, cost);
+            hash_start(sender, playerid, input, callback, cost, optional_args);
         });
 
         Ok(true)
