@@ -9,12 +9,13 @@
 #define _samp_bcrypt_included
 
 /*
-bcrypt_hash(playerid, const callback[], const input[],cost)
+bcrypt_hash(playerid, const callback[], const input[],cost,const args[] = "", {Float, _}:...)
 	Params
 		`playerid` - id of the player
 		`callback[]` - callback to execute after hashing
 		`input[]` - string to hash
 		`cost` - work factor (4 - 31)
+		`args` - custom arguements
 
 	Example
 		```
