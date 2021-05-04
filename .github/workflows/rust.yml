@@ -52,6 +52,7 @@ jobs:
 
     - name: Create archive for Windows
       run: 7z a -tzip ./artifacts/${{ env.RELEASE_BIN }}-windows-x86.zip ./target/release/${{ env.RELEASE_BIN }}.dll ${{ env.RELEASE_ADDS }}
+      if: matrix.os == 'windows-latest'
 
     - uses: actions/upload-artifact@v1
       name: Upload archive
