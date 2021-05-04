@@ -18,15 +18,23 @@ impl super::SampBcrypt {
             .ok_or(AmxError::Params)?
             .to_string();
         let cost = args.next::<u32>().ok_or(AmxError::Params)?;
-        let format = args.next::<AmxString>().ok_or(AmxError::Params)?.to_bytes();
-        if format.len() != args.count() - 5 {
-            error!(
-                "The argument count mismatch expected :{} provided: {}.",
-                format.len(),
-                args.count() - 5
-            );
-            return Ok(false);
+        let format = if let Some(specifiers) = args.next::<AmxString>() {
+            specifiers.to_bytes()
+        } else {
+            Vec::new()
+        };
+
+        if format.len() != 0 {
+            if format.len() != args.count() - 5 {
+                error!(
+                    "The argument count mismatch expected :{} provided: {}.",
+                    format.len(),
+                    args.count() - 5
+                );
+                return Ok(false);
+            }
         }
+
         let sender = self.hash_sender.clone();
         let mut optional_args: Vec<ArgumentTypes> = Vec::new();
 
