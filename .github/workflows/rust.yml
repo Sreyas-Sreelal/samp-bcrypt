@@ -30,6 +30,12 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
+    - name: Install gcc-multilib
+      run:
+        sudo apt update
+        sudo apt install gcc-multilib -y
+      if: matrix.os == 'ubuntu-latest'
+
     - name: Install Rust (rustup)
       run: rustup update ${{ matrix.rust }} --no-self-update && rustup default ${{ matrix.rust }}
       shell: bash
