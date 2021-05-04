@@ -8,7 +8,7 @@ on:
     branches: [ master ]
 
 env:
-  RELEASE_BIN: samp-bcrypt
+  RELEASE_BIN: samp_bcrypt
   RELEASE_ADDS: README.md LICENSE
 
 jobs:
@@ -47,7 +47,7 @@ jobs:
       run: mkdir artifacts
 
     - name: Create archive for Linux
-      run: 7z a -ttar -so -an ./target/release/${{ env.RELEASE_BIN }} ${{ env.RELEASE_ADDS }} | 7z a -si ./artifacts/${{ env.RELEASE_BIN }}-linux-x86.tar.gz
+      run: 7z a -ttar -so -an ./target/release/lib${{ env.RELEASE_BIN }}.so ${{ env.RELEASE_ADDS }} | 7z a -si ./artifacts/${{ env.RELEASE_BIN }}-linux-x86.tar.gz
       if: matrix.os == 'ubuntu-latest'
 
     - name: Create archive for Windows
