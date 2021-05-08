@@ -11,10 +11,10 @@ use threadpool::ThreadPool;
 pub struct SampBcrypt {
     pub hashes: LinkedList<String>,
     pub pool: ThreadPool,
-    pub hash_sender: Option<Sender<(u32, String, String, Vec<ArgumentTypes>)>>,
-    pub hash_receiver: Option<Receiver<(u32, String, String, Vec<ArgumentTypes>)>>,
-    pub verify_sender: Option<Sender<(u32, String, bool)>>,
-    pub verify_receiver: Option<Receiver<(u32, String, bool)>>,
+    pub hash_sender: Option<Sender<(i32, String, String, Vec<ArgumentTypes>)>>,
+    pub hash_receiver: Option<Receiver<(i32, String, String, Vec<ArgumentTypes>)>>,
+    pub verify_sender: Option<Sender<(i32, String, bool)>>,
+    pub verify_receiver: Option<Receiver<(i32, String, bool)>>,
     pub amx_list: Vec<AmxIdent>,
 }
 
@@ -71,8 +71,9 @@ impl SampPlugin for SampBcrypt {
                         error!("*Cannot execute callback {:?}", callback);
                     }
                     if let Ok(index) = amx.find_public(&callback) {
-                        amx.exec(index).unwrap();
-                        executed = true;
+                        if let Ok(_) = amx.exec(index) {
+                            executed = true;
+                        } 
                     } else {
                         error!("*Cannot execute callback {:?}", callback);
                     }

@@ -7,8 +7,8 @@ pub enum ArgumentTypes {
     String(Vec<u8>),
 }
 pub fn hash_verify(
-    verify_sender: Option<Sender<(u32, String, bool)>>,
-    playerid: u32,
+    verify_sender: Option<Sender<(i32, String, bool)>>,
+    playerid: i32,
     input: String,
     hash: String,
     callback: String,
@@ -27,8 +27,8 @@ pub fn hash_verify(
 }
 
 pub fn hash_start(
-    hash_sender: Option<Sender<(u32, String, String, Vec<ArgumentTypes>)>>,
-    playerid: u32,
+    hash_sender: Option<Sender<(i32, String, String, Vec<ArgumentTypes>)>>,
+    playerid: i32,
     input: String,
     callback: String,
     cost: u32,

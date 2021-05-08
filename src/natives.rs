@@ -8,7 +8,8 @@ use samp::prelude::*;
 impl super::SampBcrypt {
     #[native(raw, name = "bcrypt_hash")]
     pub fn bcrypt_hash(&mut self, amx: &Amx, mut args: samp::args::Args) -> AmxResult<bool> {
-        let playerid = args.next::<u32>().ok_or(AmxError::Params)?;
+
+        let playerid = args.next::<i32>().ok_or(AmxError::Params)?;
         let callback = args
             .next::<AmxString>()
             .ok_or(AmxError::Params)?
@@ -18,21 +19,21 @@ impl super::SampBcrypt {
             .ok_or(AmxError::Params)?
             .to_string();
         let cost = args.next::<u32>().ok_or(AmxError::Params)?;
-        let format = if let Some(specifiers) = args.next::<AmxString>() {
-            specifiers.to_bytes()
-        } else {
-            Vec::new()
-        };
+        let mut format:Vec<u8> = Vec::new(); 
 
-        if format.len() != 0 {
-            if format.len() != args.count() - 5 {
-                error!(
-                    "The argument count mismatch expected :{} provided: {}.",
-                    format.len(),
-                    args.count() - 5
-                );
-                return Ok(false);
+        if args.count() > 4 {
+            if let Some(specifiers) = args.next::<AmxString>() {
+                format = specifiers.to_bytes();
             }
+        }
+       
+        if !format.is_empty() && format.len() != args.count() - 5 {
+            error!(
+                "The argument count mismatch expected :{} provided: {}.",
+                format.len(),
+                args.count() - 5
+            );
+            return Ok(false);
         }
 
         let sender = self.hash_sender.clone();
@@ -85,7 +86,7 @@ impl super::SampBcrypt {
     pub fn bcrypt_verify(
         &mut self,
         _: &Amx,
-        playerid: u32,
+        playerid: i32,
         callback: AmxString,
         input: AmxString,
         hash: AmxString,
