@@ -1,7 +1,6 @@
 # SampBcrypt
-[![Build Status](https://travis-ci.org/Sreyas-Sreelal/samp-bcrypt.svg?branch=master)](https://travis-ci.org/Sreyas-Sreelal/samp-bcrypt)
-[![Build status](https://ci.appveyor.com/api/projects/status/5rq55kukvy8xymly?svg=true)](https://ci.appveyor.com/project/Sreyas-Sreelal/samp-bcrypt)
-[![sampctl-supported](https://shields.southcla.ws/badge/sampctl-SampBcrypt-2f2f2f.svg)](https://github.com/Sreyas-Sreelal/samp-bcrypt)
+![Build](https://github.com/sreyas-sreelal/samp-bcrypt/actions/workflows/build.yml/badge.svg)
+[![sampctl](https://img.shields.io/badge/sampctl-supported-2f2f2f.svg)](https://github.com/Sreyas-Sreelal/samp-bcrypt)
 [![GitHub issues](https://img.shields.io/github/issues/Sreyas-Sreelal/samp-bcrypt.svg)](https://github.com/Sreyas-Sreelal/samp-bcrypt/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/sreyas-sreelal/samp-bcrypt.svg)](https://github.com/Sreyas-Sreelal/samp-bcrypt/pulls) [![GitHub pull license](https://img.shields.io/github/license/sreyas-sreelal/samp-bcrypt.svg)](LICENSE)
 
 A bcrypt plugin for samp in Rust.
@@ -35,11 +34,12 @@ If you are a sampctl user
 	`make run`
 
 ## API
-* #### bcrypt_hash(playerid,callback[],input[],cost)
+* #### bcrypt_hash(playerid, const callback[], const input[],cost,const args[] = "", {Float, _}:...)
 	* `playerid` - id of the player
 	* `callback[]` - callback to execute after hashing
 	* `input[]` - string to hash
 	* `cost` - work factor (4 - 31)
+	* `args` - custom arguements
 
 	**Example**
 	```Pawn
@@ -64,7 +64,7 @@ If you are a sampctl user
 
 	forward OnPassswordHash(playerid);
 	public OnPassswordHash(playerid){
-		new dest[250];
+		new dest[60];
 		bcrypt_get_hash(dest);
 		printf("hash : %s",dest);
 	}
@@ -83,7 +83,7 @@ If you are a sampctl user
 
 	forward OnPassswordHash(playerid);
 	public OnPassswordHash(playerid){
-		new dest[250];
+		new dest[60];
 		bcrypt_get_hash(dest);
 		bcrypt_verify(playerid,"OnPassswordVerify","text",dest);
 	}
