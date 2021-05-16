@@ -73,9 +73,10 @@ impl SampPlugin for SampBcrypt {
                     if let Ok(index) = amx.find_public(&callback) {
                         if let Ok(_) = amx.exec(index) {
                             executed = true;
+                            break;
                         } 
                     } else {
-                        error!("*Cannot execute callback {:?}", callback);
+                        error!("*Cannot find callback {:?}", callback);
                     }
                 }
             }
