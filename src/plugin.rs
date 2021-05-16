@@ -75,8 +75,6 @@ impl SampPlugin for SampBcrypt {
                             executed = true;
                             break;
                         } 
-                    } else {
-                        error!("*Cannot find callback {:?}", callback);
                     }
                 }
             }
