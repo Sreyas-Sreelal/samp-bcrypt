@@ -8,6 +8,14 @@
 #endif
 #define _samp_bcrypt_included
 
+#if !defined BCRYPT_HASH_LENGTH
+	#define BCRYPT_HASH_LENGTH 60
+#endif
+
+#if !defined BCRYPT_COST
+	#define BCRYPT_COST 12
+#endif
+
 /*
 bcrypt_hash(playerid, const callback[], const input[],cost,const args[] = "", {Float, _}:...)
 	Params
