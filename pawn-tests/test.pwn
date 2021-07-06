@@ -26,7 +26,7 @@ Test:TestInvalidCustomArgs() {
 forward OnPassswordHash(playerid);
 public OnPassswordHash(playerid){
 	printf("***OnPassswordHash");
-	new dest[BCRYPT_HASH_LENGTH + 1];
+	new dest[BCRYPT_HASH_LENGTH];
 	bcrypt_get_hash(dest);
 	printf("hash is %s",dest);
 	bcrypt_verify(playerid,"OnPassswordVerifyValid","text",dest);
@@ -54,7 +54,7 @@ public OnPassswordHash3(playerid,int1,str1[],str2[],Float:float1){
 forward OnPassswordHash2(playerid);
 public OnPassswordHash2(playerid){
 	printf("***OnPassswordHash2");
-	new dest[BCRYPT_HASH_LENGTH + 1];
+	new dest[BCRYPT_HASH_LENGTH];
 	bcrypt_get_hash(dest);
 	printf("hash is %s",dest);
 	bcrypt_verify(playerid,"OnPassswordVerifyInvalid","text",dest);
