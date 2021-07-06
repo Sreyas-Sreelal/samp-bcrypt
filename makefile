@@ -2,8 +2,8 @@ ifdef OS
 	TOOLCHAIN = +stable-i686-pc-windows-msvc
 	BINARYNAME = samp_bcrypt.dll
 	OUPUTNAME = samp_bcrypt.dll
-	CP_RELEASE = cp .\target\release\$(BINARYNAME) .\plugins\$(OUPUTNAME)
-	CP_DEBUG = cp .\target\debug\$(BINARYNAME) .\plugins\$(OUPUTNAME)
+	CP_RELEASE = copy .\target\release\$(BINARYNAME) .\plugins\$(OUPUTNAME)
+	CP_DEBUG = copy .\target\debug\$(BINARYNAME) .\plugins\$(OUPUTNAME)
 else
 	ifeq ($(shell uname), Linux)
 		TOOLCHAIN = +stable-i686-unknown-linux-gnu
