@@ -74,7 +74,7 @@ bcrypt_get_hash(dest[],size = sizeof(hash))
 		}
 		forward OnPassswordHash(playerid,hashid);
 		public OnPassswordHash(playerid,hashid){
-			new dest[60];
+			new dest[BCRYPT_HASH_LENGTH];
 			bcrypt_get_hash(dest);
 			printf("hash : %s",dest);
 		}

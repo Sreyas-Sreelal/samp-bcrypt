@@ -64,7 +64,7 @@ If you are a sampctl user
 
 	forward OnPassswordHash(playerid);
 	public OnPassswordHash(playerid){
-		new dest[60];
+		new dest[BCRYPT_HASH_LENGTH];
 		bcrypt_get_hash(dest);
 		printf("hash : %s",dest);
 	}
@@ -83,7 +83,7 @@ If you are a sampctl user
 
 	forward OnPassswordHash(playerid);
 	public OnPassswordHash(playerid){
-		new dest[60];
+		new dest[BCRYPT_HASH_LENGTH];
 		bcrypt_get_hash(dest);
 		bcrypt_verify(playerid,"OnPassswordVerify","text",dest);
 	}
