@@ -39,12 +39,12 @@ If you are a sampctl user
 	* `callback[]` - callback to execute after hashing
 	* `input[]` - string to hash
 	* `cost` - work factor (4 - 31)
-	* `args` - custom arguements
+	* `args` - custom arguments
 
 	**Example**
 	```Pawn
 	main(){
-		bcrypt_hash(0,"OnPassswordHash","text",12);
+		bcrypt_hash(0,"OnPassswordHash","text",BCRYPT_COST);
 	}
 
 	forward OnPassswordHash(playerid);
@@ -59,7 +59,7 @@ If you are a sampctl user
 	**Example**
 	```Pawn
 	main(){
-		bcrypt_hash(0,"OnPassswordHash","text",12);
+		bcrypt_hash(0,"OnPassswordHash","text",BCRYPT_COST);
 	}
 
 	forward OnPassswordHash(playerid);
@@ -78,7 +78,7 @@ If you are a sampctl user
 	**Example**
 	```Pawn
 	main(){
-		bcrypt_hash(0,"OnPassswordHash","text",12);
+		bcrypt_hash(0,"OnPassswordHash","text",BCRYPT_COST);
 	}
 
 	forward OnPassswordHash(playerid);
