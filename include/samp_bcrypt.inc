@@ -80,7 +80,7 @@ bcrypt_get_hash(dest[],size = sizeof(hash))
 		}
 		```
 */
-native bcrypt_get_hash(const hash[], size = sizeof(hash));
+native bcrypt_get_hash(hash[], size = sizeof(hash));
 
 /*
 bcrypt_set_thread_limit(value)
