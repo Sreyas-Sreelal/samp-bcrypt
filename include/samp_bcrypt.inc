@@ -23,12 +23,12 @@ bcrypt_hash(playerid, const callback[], const input[],cost,const args[] = "", {F
 		`callback[]` - callback to execute after hashing
 		`input[]` - string to hash
 		`cost` - work factor (4 - 31)
-		`args` - custom arguements
+		`args` - custom arguments
 
 	Example
 		```
 		main(){
-			bcrypt_hash(0,"OnPassswordHash","text",12);
+			bcrypt_hash(0,"OnPassswordHash","text",BCRYPT_COST);
 		}
 		forward OnPassswordHash(playerid,hashid);
 		public OnPassswordHash(playerid,hashid){
@@ -70,7 +70,7 @@ bcrypt_get_hash(dest[],size = sizeof(hash))
 	Example
 		```
 		main(){
-			bcrypt_hash(0,"OnPassswordHash","text",12);
+			bcrypt_hash(0,"OnPassswordHash","text",BCRYPT_COST);
 		}
 		forward OnPassswordHash(playerid,hashid);
 		public OnPassswordHash(playerid,hashid){
