@@ -27,3 +27,10 @@ samp-npc.exe
 
 server.cfg
 server_log.txt
+crashinfo.txt
+
+#Open Multiplayer specific: 
+/components/
+omp-server*
+log.txt
+bans.json
