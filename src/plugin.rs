@@ -20,7 +20,7 @@ pub struct SampBcrypt {
 
 impl SampPlugin for SampBcrypt {
     fn on_load(&mut self) {
-        info!("Version: 0.3.4");
+        info!("Version: 0.4.0");
         let (verify_sender, verify_receiver) = channel();
         self.verify_sender = Some(verify_sender);
         self.verify_receiver = Some(verify_receiver);
