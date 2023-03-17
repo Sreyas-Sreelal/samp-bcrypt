@@ -1,7 +1,6 @@
-use crate::internals::ArgumentTypes;
+use crate::internals::{ArgumentTypes, HashParams, VerifyParams};
 use log::{error, info};
 use samp::amx::AmxIdent;
-use samp::exec_public;
 use samp::plugin::SampPlugin;
 use samp::prelude::*;
 use std::collections::LinkedList;
@@ -11,10 +10,10 @@ use threadpool::ThreadPool;
 pub struct SampBcrypt {
     pub hashes: LinkedList<String>,
     pub pool: ThreadPool,
-    pub hash_sender: Option<Sender<(i32, String, String, Vec<ArgumentTypes>)>>,
-    pub hash_receiver: Option<Receiver<(i32, String, String, Vec<ArgumentTypes>)>>,
-    pub verify_sender: Option<Sender<(i32, String, bool)>>,
-    pub verify_receiver: Option<Receiver<(i32, String, bool)>>,
+    pub hash_sender: Option<Sender<HashParams>>,
+    pub hash_receiver: Option<Receiver<HashParams>>,
+    pub verify_sender: Option<Sender<VerifyParams>>,
+    pub verify_receiver: Option<Receiver<VerifyParams>>,
     pub amx_list: Vec<AmxIdent>,
 }
 
@@ -71,10 +70,10 @@ impl SampPlugin for SampBcrypt {
                         error!("*Cannot execute callback {:?}", callback);
                     }
                     if let Ok(index) = amx.find_public(&callback) {
-                        if let Ok(_) = amx.exec(index) {
+                        if amx.exec(index).is_ok() {
                             executed = true;
                             break;
-                        } 
+                        }
                     }
                 }
             }
@@ -83,13 +82,46 @@ impl SampPlugin for SampBcrypt {
             }
         }
 
-        for (playerid, callback, success) in self.verify_receiver.as_ref().unwrap().try_iter() {
+        for (playerid, callback, success, optional_args) in
+            self.verify_receiver.as_ref().unwrap().try_iter()
+        {
             let mut executed = false;
             for amx in &self.amx_list {
                 if let Some(amx) = samp::amx::get(*amx) {
-                    let _ = exec_public!(amx, &callback, playerid, success);
-                    executed = true;
+                    let allocator = amx.allocator();
+
+                    for param in optional_args.iter().rev() {
+                        match param {
+                            ArgumentTypes::Primitive(x) => {
+                                if amx.push(x).is_err() {
+                                    error!("*Cannot execute callback {:?}", callback);
+                                }
+                            }
+                            ArgumentTypes::String(data) => {
+                                let buf = allocator.allot_buffer(data.len() + 1).unwrap();
+                                let amx_str = unsafe { AmxString::new(buf, data) };
+                                if amx.push(amx_str).is_err() {
+                                    error!("*Cannot execute callback {:?}", callback);
+                                }
+                            }
+                        }
+                    }
+                    if amx.push(success).is_err() {
+                        error!("*Cannot execute callback {:?}", callback);
+                    }
+                    if amx.push(playerid).is_err() {
+                        error!("*Cannot execute callback {:?}", callback);
+                    }
+                    if let Ok(index) = amx.find_public(&callback) {
+                        if amx.exec(index).is_ok() {
+                            executed = true;
+                            break;
+                        }
+                    }
                 }
+            }
+            if !executed {
+                error!("*Cannot execute callback {:?}", callback);
             }
             if !executed {
                 error!("*Cannot execute callback {:?}", callback);
