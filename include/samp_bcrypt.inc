@@ -44,6 +44,7 @@ bcrypt_verify(playerid,callback[],input[],hash[])
 		`callback[]` - callback to execute after hashing
 		`input[]` - text to compare with hash
 		`hash[]` - hash to compare with text
+		`args` - custom arguments
 	Example
 		```
 		main(){
@@ -61,7 +62,7 @@ bcrypt_verify(playerid,callback[],input[],hash[])
 		}
 		```
 */
-native bcrypt_verify(playerid, const callback[], const input[], const hash[]);
+native bcrypt_verify(playerid, const callback[], const input[], const hash[],const args[] = "", {Float, _}:...);
 /*
 bcrypt_get_hash(dest[],size = sizeof(hash))
 	Params
