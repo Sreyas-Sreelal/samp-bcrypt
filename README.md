@@ -74,7 +74,8 @@ If you are a sampctl user
 	* `callback[]` - callback to execute after hashing
 	* `input[]` - text to compare with hash
 	* `hash[]` - hash to compare with text
-
+	* `args` - custom arguments
+	
 	**Example**
 	```Pawn
 	main(){
