@@ -1,15 +1,16 @@
-
-#if defined _inc_samp_bcrypt
-	#undef _inc_samp_bcrypt
+#if defined omp_bcrypt_inc
+	#undef omp_bcrypt_inc
 #endif
 
-#if defined _samp_bcrypt_included
+#if defined omp_bcrypt_included
 	#endinput
 #endif
-#define _samp_bcrypt_included
 
-#if !defined BCRYPT_HASH_LENGTH
-	#define BCRYPT_HASH_LENGTH (60 + 1)
+#define omp_bcrypt_included
+
+#if !defined BCRYPT_HASH_LEN
+	#define	BCRYPT_HASH_LEN (60 + 1)
+	const BCRYPT_HASH_LENGTH = BCRYPT_HASH_LEN;
 #endif
 
 #if !defined BCRYPT_COST
@@ -36,7 +37,7 @@ bcrypt_hash(playerid, const callback[], const input[],cost,const args[] = "", {F
 		}
 		```
 */
-native bcrypt_hash(playerid, const callback[], const input[],cost,const args[] = "", {Float, _}:...);
+native bcrypt_hash(playerid, const callback[], const input[], cost, const args[] = "", {Float, _}:...);
 /*
 bcrypt_verify(playerid,callback[],input[],hash[])
 	Params
@@ -62,7 +63,7 @@ bcrypt_verify(playerid,callback[],input[],hash[])
 		}
 		```
 */
-native bcrypt_verify(playerid, const callback[], const input[], const hash[],const args[] = "", {Float, _}:...);
+native bcrypt_verify(playerid, const callback[], const input[], const hash[], const args[] = "", {Float, _}:...);
 /*
 bcrypt_get_hash(dest[],size = sizeof(hash))
 	Params
@@ -82,7 +83,6 @@ bcrypt_get_hash(dest[],size = sizeof(hash))
 		```
 */
 native bcrypt_get_hash(hash[], size = sizeof(hash));
-
 /*
 bcrypt_set_thread_limit(value)
 	Params
