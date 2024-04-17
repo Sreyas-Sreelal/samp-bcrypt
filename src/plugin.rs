@@ -123,9 +123,6 @@ impl SampPlugin for SampBcrypt {
             if !executed {
                 error!("*Cannot execute callback {:?}", callback);
             }
-            if !executed {
-                error!("*Cannot execute callback {:?}", callback);
-            }
         }
 
         self.hashes.clear();
