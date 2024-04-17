@@ -13,8 +13,8 @@ lto = true
 panic = "abort"
 
 [dependencies]
-samp = {git="https://github.com/ZOTTCE/samp-rs/"}
-bcrypt = "0.2.1"
+samp = {git="https://github.com/Pycckue-Bnepeg/samp-rs"}
+bcrypt = "0.15.1"
 log = "0.4.6"
 fern = "0.5.7"
 threadpool = "1.7.1"
