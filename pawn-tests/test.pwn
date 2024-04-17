@@ -17,6 +17,7 @@ Test:TestBcryptHash()
 	bcrypt_hash(0, "OnPassswordHash", "text", 12);
 	bcrypt_hash(0, "OnPassswordHash2", "test", 4);
 	bcrypt_hash(0, "OnPassswordHash3", "test", 4, "issf", 69, "hello", "world", 10.0);
+	bcrypt_hash(0, !"OnPassswordHash3", !"test", 4, !"issf", 69, !"hello", !"world", 10.0);
 }
 
 Test:TestInvalidCustomArgs()
